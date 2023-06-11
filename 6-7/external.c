@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     if (argc != 3)
     {
-       fprintf(stderr, "Usage: %s <Server IP> <Server Port>\n", argv[0]);
+       fprintf(stderr, "Incorrect input: %s <Server IP> <Server Port>\n", argv[0]);
        exit(1);
     }
 
@@ -41,9 +41,9 @@ int main(int argc, char *argv[])
     for (;;) {
         recvfrom(client_socket, recvData, sizeof(recvData), 0, (struct sockaddr *) &server_addr, &addr_len);
         if (recvData[0] < 0) break;
-        printf("Server calculated part: %f\n", recvData[0]);
+        printf("Server summary: %f\n", recvData[0]);
     }
-    printf("Server finished\n");
+    printf("FINISHED\n");
     close(client_socket);
     return 0;
 }
