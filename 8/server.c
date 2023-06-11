@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     
     if (argc != 5)
     {
-        fprintf(stderr, "Usage:  %s <Multicast Address> <Port for clients> <Port for Multicast> <Total sum>\n", argv[0]);
+        fprintf(stderr, "Incorrect input:  %s <Multicast Address> <Port for clients> <Port for Multicast> <Total sum>\n", argv[0]);
         exit(1);
     }
 
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     server_addr.sin_port = htons(port);
 
     if (bind(server_socket, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) DieWithError("bind() failed");
-    printf("Open socket on %s:%d\n", inet_ntoa(server_addr.sin_addr), port);
+    printf("Open %s:%d\n", inet_ntoa(server_addr.sin_addr), port);
 
     
 
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     multicastAddr.sin_port = htons(multicastPort); 
 
 
-    printf("Open broadcast socket on %s:%d\n", inet_ntoa(multicastAddr.sin_addr), multicastPort);
+    printf("Open %s:%d\n", inet_ntoa(multicastAddr.sin_addr), multicastPort);
 
     for (int i = 0; i < 8; i++) {
         client_length = sizeof(client_addr);
@@ -85,15 +85,15 @@ int main(int argc, char *argv[])
         recvfrom(server_socket, recvData, sizeof(recvData), 0, (struct sockaddr*) &client_addr, &client_length);
         childPart = recvData[0];
         sumFromClients += childPart;
-        printf("New connection from %s\n", inet_ntoa(client_addr.sin_addr));
+        printf("Connect %s\n", inet_ntoa(client_addr.sin_addr));
         sendto(multicast_sock, recvData, sizeof(recvData), 0, (struct sockaddr *) &multicastAddr, sizeof(multicastAddr));
     }
-    printf("Sum from children: %f\n", sumFromClients);
+    printf("Sum: %f\n", sumFromClients);
     printf("Total sum: %f\n", totalSum);
     if (totalSum != sumFromClients) {
-        printf("Attorney is liar\n");
+        printf("INCORRECT Lawyer - SKAMer\n");
     } else {
-        printf("Everything is OK\n");
+        printf("CORRECT\n");
     }
     double sendData[1];
     sendData[0] = -1;
