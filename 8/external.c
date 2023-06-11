@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
     if (argc != 3)
     {
-        fprintf(stderr,"Usage: %s <Multicast IP> <Multicast Port>\n", argv[0]);
+        fprintf(stderr,"Incorrect input: %s <Multicast IP> <Multicast Port>\n", argv[0]);
         exit(1);
     }
 
@@ -48,9 +48,9 @@ int main(int argc, char *argv[])
     for (;;) {
         recvfrom(sock, recvData, sizeof(recvData), 0, NULL, 0);
         if (recvData[0] < 0) break;
-        printf("Server calculated part: %f\n", recvData[0]);
+        printf("server sum: %f\n", recvData[0]);
     }
-    printf("Server finished\n");
+    printf("FINISHED\n");
     close(sock);
     return 0;
 }
