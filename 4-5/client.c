@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     if (argc != 5)
     {
-       fprintf(stderr, "Usage: %s <Server IP> <Server Port> <Child part> <Total sum>\n", argv[0]);
+       fprintf(stderr, "Incorrect input: %s <Server IP> <Server Port> <Child part> <Total sum>\n", argv[0]);
        exit(1);
     }
 
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     double realMoney = totalSum * childPart;
     double sumFromServer;
 
-    printf("My part money: %f\n", realMoney);
+    printf("My money: %f\n", realMoney);
 
     double sendData[1];
     double recvData[1];
