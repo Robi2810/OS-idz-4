@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     
     if (argc != 4)
     {
-        fprintf(stderr, "Usage:  %s <Port for clients> <Port for external programm> <Total sum>\n", argv[0]);
+        fprintf(stderr, "Incorrect input:  %s <Port for clients> <Port for external programm> <Total sum>\n", argv[0]);
         exit(1);
     }
 
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     server_addr.sin_port = htons(port);
 
     if (bind(server_socket, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) DieWithError("bind() failed");
-    printf("Open socket on %s:%d\n", inet_ntoa(server_addr.sin_addr), port);
+    printf("Open %s:%d\n", inet_ntoa(server_addr.sin_addr), port);
 
     if ((external_server_socket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) DieWithError("socket() failed");
     memset(&ext_addr, 0, sizeof(ext_addr));
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     ext_addr.sin_port = htons(external_port);
 
     if (bind(external_server_socket, (struct sockaddr *) &ext_addr, sizeof(ext_addr)) < 0) DieWithError("bind() failed");
-    printf("Open socket on %s:%d\n", inet_ntoa(ext_addr.sin_addr), external_port);
+    printf("Open %s:%d\n", inet_ntoa(ext_addr.sin_addr), external_port);
 
     threadArgs *args = (threadArgs*) malloc(sizeof(threadArgs));
     args->socket = external_server_socket;
@@ -90,15 +90,15 @@ int main(int argc, char *argv[])
         recvfrom(server_socket, recvData, sizeof(recvData), 0, (struct sockaddr*) &client_addr, &client_length);
         childPart = recvData[0];
         sumFromClients += childPart;
-        printf("New connection from %s\n", inet_ntoa(client_addr.sin_addr));
+        printf("Connect %s\n", inet_ntoa(client_addr.sin_addr));
         if (external_socket > 0) sendto(external_socket, recvData, sizeof(recvData), 0, (struct sockaddr *) &external_addr, sizeof(external_addr));
     }
-    printf("Sum from children: %f\n", sumFromClients);
+    printf("Sum: %f\n", sumFromClients);
     printf("Total sum: %f\n", totalSum);
     if (totalSum != sumFromClients) {
-        printf("Attorney is liar\n");
+        printf("INCORRECT Laweyr-SKAMer\n");
     } else {
-        printf("Everything is OK\n");
+        printf("CORRECT\n");
     }
     double sendData[1];
     sendData[0] = -1;
